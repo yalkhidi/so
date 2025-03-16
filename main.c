@@ -3,18 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yalkhidi <yalkhidi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:28:29 by yalkhidi          #+#    #+#             */
-/*   Updated: 2025/03/14 15:00:37 by yalkhidi         ###   ########.fr       */
+/*   Updated: 2025/03/16 11:10:30 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int main(void)
+int	main(void)
 {
-	char *filename = "map.txt";
+	char	*filename;
 
-	check_if_rectangular(filename);
+	filename = "map.ber";
+	validate_map_shape(filename);
+	check_map(filename);
 }
+
+/*
+11111\n\0
+*/

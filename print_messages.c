@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   print_messages.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yalkhidi <yalkhidi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/18 15:01:09 by yalkhidi          #+#    #+#             */
-/*   Updated: 2025/03/14 13:43:12 by yalkhidi         ###   ########.fr       */
+/*   Created: 2025/03/15 10:01:02 by codespace         #+#    #+#             */
+/*   Updated: 2025/03/15 10:02:07 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "libft.h"
-#include <string.h>
+#include "so_long.h"
 
-size_t	ft_strlen(const char *s)
+void	print_message(char *message)
 {
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-	{
-		i++;
-	}
-	return (i);
+	write(2, message, ft_strlen(message));
+	exit(1);
 }

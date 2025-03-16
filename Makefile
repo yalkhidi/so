@@ -1,10 +1,13 @@
 CC:= cc
 CCFLAGS:= -Wall -Werror -Wextra
+
 MLX:= minilibx_opengl_20191021
 MLX_FLAG:= -L$(MLX) -lmlx -framework OpenGL -framework AppKit
+
 LIBFT:= libft/libft.a
 GNL:= get_next_line/gnl.a
-FILES:= parse.c
+
+FILES:= validate_map_elements.c validate_map_shape.c  print_messages.c validate_map.c  validate_map_invalid_elements.c  validate_map_walls.c
 MAIN:= main.c
 BONUS:= 
 
@@ -28,7 +31,7 @@ $(NAME): $(OFILES)
 	ar -crs $(NAME) $(OFILES) 
 
 solong:
-	$(CC) $(CCFLAGS) $(NAME) $(MAIN) $(LIBFT) $(GNL) -o so_long
+	$(CC) $(CCFLAGS) $(MAIN) $(NAME) $(LIBFT) $(GNL) -o so_long
 
 bonus: $(OBONUS) 
 	ar -crs $(NAME) $(OBONUS)
