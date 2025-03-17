@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map_shape.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: yalkhidi <yalkhidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 10:53:13 by codespace         #+#    #+#             */
-/*   Updated: 2025/03/16 11:07:05 by codespace        ###   ########.fr       */
+/*   Updated: 2025/03/17 14:21:26 by yalkhidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	check_consistent(int width, int first_width, int fd, char *line)
 	}
 }
 
-void	validate_map_shape(char *filename)
+void	validate_map_shape(char *filename, t_area *area)
 {
 	char	*line;
 	int		width;
@@ -59,4 +59,6 @@ void	validate_map_shape(char *filename)
 	}
 	check_rectangular(width, height, fd);
 	close(fd);
+	area->height = height;
+	area->width = width;
 }

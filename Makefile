@@ -1,37 +1,35 @@
 CC:= cc
 CCFLAGS:= -Wall -Werror -Wextra
 
-MLX:= minilibx_opengl_20191021
-MLX_FLAG:= -L$(MLX) -lmlx -framework OpenGL -framework AppKit
+MLXFLAG:= -Lmlx -lmlx -framework OpenGL -framework AppKit
 
 LIBFT:= libft/libft.a
 GNL:= get_next_line/gnl.a
+MLX:= mlx/libmlx.a
 
-FILES:= validate_map_elements.c validate_map_shape.c  print_messages.c validate_map.c  validate_map_invalid_elements.c  validate_map_walls.c
-MAIN:= main.c
+FILES:= mlx.c main.c validate_map_elements.c validate_map_shape.c  print_messages.c validate_map.c  validate_map_invalid_elements.c  validate_map_walls.c
 BONUS:= 
 
 HEADER:= so_long.h
-NAME:= solong.a
+NAME:= solong
 
 OFILES:= $(FILES:.c=.o)
 OBONUS:= $(BONUS:.c=.o)
 
-all: $(NAME) $(LIBFT) $(GNL) solong
+all: $(LIBFT) $(GNL) $(MLX) $(NAME)
 
 %.o: %.c $(HEADER)
-	$(CC) $(CCFLAGS) -c $< -o $@
+	$(CC) $(CCFLAGS) -I$(MLX) -c $< -o $@
 
 $(LIBFT):
 	make -C libft
 $(GNL):
 	make -C get_next_line
+$(MLX):
+	make -C mlx
 
 $(NAME): $(OFILES)
-	ar -crs $(NAME) $(OFILES) 
-
-solong:
-	$(CC) $(CCFLAGS) $(MAIN) $(NAME) $(LIBFT) $(GNL) -o so_long
+	$(CC) $(CCFLAGS) $(MLXFLAG) $(OFILES) $(LIBFT) $(GNL) $(MLX) -o $(NAME)
 
 bonus: $(OBONUS) 
 	ar -crs $(NAME) $(OBONUS)
@@ -39,12 +37,14 @@ bonus: $(OBONUS)
 clean:
 	make clean -C libft
 	make clean -C get_next_line
+	make clean -C mlx
 	rm -f $(OFILES) $(OBONUS)
 
 fclean: clean
 	make fclean -C libft
 	make fclean -C get_next_line
-	rm -f $(NAME) so_long
+	make clean -C mlx
+	rm -f $(NAME)
 
 re: fclean all
 .PHONY: all clean fclean re

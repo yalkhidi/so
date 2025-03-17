@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map_elements.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: yalkhidi <yalkhidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 11:28:12 by codespace         #+#    #+#             */
-/*   Updated: 2025/03/16 11:46:07 by codespace        ###   ########.fr       */
+/*   Updated: 2025/03/17 14:32:15 by yalkhidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,14 @@ void	validate_map_elements2(char	*filename)
 	line = get_next_line(fd);
 	while (line)
 	{
-		check_elements2(line, &space, &wall);
+		check_elements2(line, &wall, &space);
 		free(line);
 		line = get_next_line(fd);
 	}
-	if (!wall || !space)
+	if (!wall)
 	{
 		close(fd);
-		print_message("Error\nMap is not complete.\n");
+		print_message("Error\nMap is not complete.1\n");
 	}
 	close(fd);
 }
