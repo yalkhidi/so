@@ -1,96 +1,99 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   flood_fill.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yalkhidi <yalkhidi@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/17 12:53:26 by yalkhidi          #+#    #+#             */
-/*   Updated: 2025/03/17 17:10:46 by yalkhidi         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "so_long.h"
 
-char	**map_to_array(char *filename)
+char	**duplicat_map(char **map, int height)
 {
-	int		fd;
-	char	**map;
-	t_area	area;
-	int		i;
+	char	**cpy_map;
+	int i;
 
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		print_message("Error\nFailed to open file");
-	area.height = 1;
-	area.width = 1;
-	validate_map_shape(filename, &area);
-	printf("width: %d\nheight: %d\n", area.width, area.height);
-	map = (char **)malloc((area.height + 1) * sizeof(char *));
-	if (!map)
-		print_message("Error\nAllocation Failed");
 	i = 0;
-	while (i < area.height)
+	cpy_map = (char **)malloc(sizeof(char *) * (height + 1));
+	if(!cpy_map)
 	{
-		map[i] = get_next_line(fd);
+		return (NULL);
+	}
+	while(map[i])
+	{
+		cpy_map[i] = ft_strdup(map[i]);
+		if(!cpy_map[i])
+		{
+			while(i--)
+				free(cpy_map[i]);
+			free(cpy_map);
+			return (NULL);
+		}
 		i++;
 	}
-	map[i] = NULL;
-	close(fd);
-	return (map);
+	cpy_map[i] = NULL;
+	return (cpy_map);
+}
+void	flood_fill(t_area *area, char **map, int x, int y)
+{
+	// printf("FLOOD FILL\n");
+	if (x < 0 || x >= area->height || y < 0 || y >= area->width)
+		return; 
+	if (area->map[x][y] == '1' || area->map[x][y] == 'F')
+		return;  
+
+	area->map[x][y] = 'F';
+	flood_fill(area, map, x + 1, y);
+	flood_fill(area, map, x - 1, y);
+	flood_fill(area, map, x, y + 1);
+	flood_fill(area, map, x, y - 1);
 }
 
-t_area	*find_p(char **map)
+int	check_valid_c_e(char c, char f, char **map)
 {
-	int		i;
-	int		j;
-	t_area	*point_p;
+	if(c == 'C' && f != 'F')
+	{
+		free(map);
+		print_message("Error\nCollectible not reached\n.");
+	}
+	if(c == 'E' && f != 'e')
+	{
+		free(map);
+		print_message("Error\nExit not reached\n.");
+	}
+	return (1);
+}
 
-	point_p = (t_area *)malloc(sizeof(t_area));
-	if (!point_p)
-		return (NULL);
-	i = 0;
-	while (map[i])
+int	is_valid_map(t_area *area)
+{
+	char **map_copy;
+	int	x;
+	int	y;
+
+	map_copy = duplicat_map(area->map, area->height);
+	if(!map_copy)
+		printf("Error\nMemory aLLOCATION FAILED.\n");
+	printf("map copy allocation success\n");
+	flood_fill(area, map_copy, area->player_x, area->player_y);
+	printf("flood fill success\n");
+	x = 0;
+	int i = 0;
+	int j = 0;
+	printf("copymap f\n");
+	while(area->map[i])
 	{
 		j = 0;
-		while (map[i][j])
+		while(area->map[i][j])
 		{
-			if (map[i][j] == 'P')
-			{
-				point_p->width = j;
-				point_p->height = i;
-				return (point_p);
-			}
+			printf("%c", area->map[i][j]);
 			j++;
 		}
 		i++;
 	}
-	return (NULL);
-}
-
-void	flood_fill(char **map, int x, int y, bool *exit)
-{
-	if (*exit)
-		return ;
-	if (map[x][y] == '1' || map[x][y] == 'V' || *exit == true)
-		return ;
-	if (map[x][y] == 'E')
+	printf("\n");
+	while(map_copy[x])
 	{
-		*exit = true;
-		return ;
+		y = 0;
+		while(map_copy[x][y])
+		{
+			check_valid_c_e(area->map[x][y], map_copy[x][y], map_copy);
+			y++;
+		}
+		x++;
 	}
-	map[x][y] = 'V';
-	flood_fill(map, x + 1, y, exit);
-	flood_fill(map, x - 1, y, exit);
-	flood_fill(map, x, y + 1, exit);
-	flood_fill(map, x, y - 1, exit);
-}
-
-bool	valid_path(char **map, int x, int y)
-{
-	bool	exit_found;
-
-	exit_found = false;
-	flood_fill(map, x, y, &exit_found);
-	return (exit_found);
+	free(map_copy);
+	printf("map has a valid path\n");
+	return (1);
 }

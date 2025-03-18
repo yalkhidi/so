@@ -6,7 +6,7 @@
 /*   By: yalkhidi <yalkhidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 10:53:13 by codespace         #+#    #+#             */
-/*   Updated: 2025/03/17 14:21:26 by yalkhidi         ###   ########.fr       */
+/*   Updated: 2025/03/18 13:28:54 by yalkhidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	check_consistent(int width, int first_width, int fd, char *line)
 	}
 }
 
-void	validate_map_shape(char *filename, t_area *area)
+void	validate_map_shape(char *filename)
 {
 	char	*line;
 	int		width;
@@ -59,6 +59,4 @@ void	validate_map_shape(char *filename, t_area *area)
 	}
 	check_rectangular(width, height, fd);
 	close(fd);
-	area->height = height;
-	area->width = width;
 }
