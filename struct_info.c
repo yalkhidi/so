@@ -6,7 +6,7 @@
 /*   By: yalkhidi <yalkhidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 12:53:26 by yalkhidi          #+#    #+#             */
-/*   Updated: 2025/03/18 14:00:39 by yalkhidi         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:29:53 by yalkhidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void	map_to_array(char *filename, t_area *area)
 		print_message("Error\nFailed to open file");
 	area->map = (char **)malloc((area->height + 1) * sizeof(char *));
 	if (!area->map)
+	{
+		close(fd);
 		print_message("Error\nAllocation Failed");
+	}
 	y = 0;
 	while (y < area->height)
 	{
@@ -38,22 +41,23 @@ void	find_player(t_area *area)
 	int		x;
 	int		y;
 
-	x = 0;
-	while (area->map[x])
+	y = 0;
+	while (area->map[y])
 	{
-		y = 0;
-		while (area->map[x][y])
+		x = 0;
+		while (area->map[y][x])
 		{
-			if (area->map[x][y] == 'P')
+			if (area->map[y][x] == 'P')
 			{
 				area->player_x = x;
 				area->player_y = y;
 			}
-			y++;
+			x++;
 		}
-		x++;
+		y++;
 	}
 }
+
 void	find_map_area(char *filename, t_area *area)
 {
 	char	*line;
@@ -70,39 +74,46 @@ void	find_map_area(char *filename, t_area *area)
 	while (line)
 	{
 		height++;
+		free(line);
 		line = get_next_line(fd);
 	}
 	close(fd);
 	area->height = height;
 	area->width = first_width;
 }
+
+void	count_collectibles(t_area *area)
+{
+	int	count;
+	int	i;
+	int	j;
+
+	i = 0;
+	count = 0;
+	while (area->map[i])
+	{
+		j = 0;
+		while (area->map[i][j])
+		{
+			if (area->map[i][j] == 'C')
+				count++;
+			j++;
+		}
+		i++;
+	}
+	area->collect_count = count;
+}
+
 t_area	*collect_info(char *filename)
 {
 	t_area	*area;
 
 	area = (t_area *)malloc(sizeof(t_area));
-	if(!area)
-	{
-		print_message("collect info\n Allocation failed\n");
-	}
+	if (!area)
+		print_message("Error\n Allocation failed\n");
 	find_map_area(filename, area);
-	// printf("width: %d\nheight: %d\n", area->width, area->height);
 	map_to_array(filename, area);
-	// int i = 0;
-	// int j = 0;
-	// while(area->map[i])
-	// {
-	// 	j = 0;
-	// 	while(area->map[i][j])
-	// 	{
-	// 		printf("%c", area->map[i][j]);
-	// 		j++;
-	// 	}
-	// 	i++;
-	// }
-	// printf("\n");
 	find_player(area);
-	// printf("px: %d\npy: %d\n", area->player_x, area->player_y);
+	count_collectibles(area);
 	return (area);
 }
-

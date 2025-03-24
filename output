@@ -5,16 +5,81 @@ Validated map elements
 Validated map elements2
 Validated map invalid elements
 Validated start exit
-incheckmap
-width: 6
-height: 4
-px: 2
-py: 4
-111111
-1CCCC1
-1CCEP1
-111111
-map copy allocation success
-flood fill success
 map has a valid path
-map parsing is complete
+DONE MLX INIT
+in fill map
+first loop
+second loop
+success
+second loop
+success
+second loop
+success
+second loop
+success
+second loop
+success
+second loop
+success
+second loop
+success
+first loop
+second loop
+success
+second loop
+success
+second loop
+success
+second loop
+success
+second loop
+success
+second loop
+success
+second loop
+success
+first loop
+second loop
+success
+second loop
+success
+second loop
+success
+second loop
+success
+second loop
+success
+second loop
+success
+second loop
+success
+first loop
+second loop
+success
+second loop
+success
+second loop
+success
+second loop
+success
+second loop
+success
+second loop
+success
+second loop
+success
+first loop
+second loop
+success
+second loop
+success
+second loop
+success
+second loop
+success
+second loop
+success
+second loop
+success
+done filling
+mlxx put img

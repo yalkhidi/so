@@ -355,6 +355,7 @@ mlx_img_list_t	*mlx_int_parse_png(mlx_ptr_t *xvar, unsigned char *fptr, int size
 
   if ((err = mipng_magic(fptr, size)))
     {
+      write(1, "MLX1\n", 5);
       warnx("mlx PNG error : %s", mipng_err[err]);
       return ((mlx_img_list_t *)0);
     }
@@ -362,22 +363,26 @@ mlx_img_list_t	*mlx_int_parse_png(mlx_ptr_t *xvar, unsigned char *fptr, int size
   size -= PNG_MAGIC_SIZE;
   if ((err = mipng_structure(fptr, size, &hdr, &dat)))
     {
+      write(1, "MLX2\n", 5);
       warnx("mlx PNG error : %s", mipng_err[err]);
       return ((mlx_img_list_t *)0);
     }
   if ((err = mipng_verif_hdr(hdr, &pi)))
     {
+      write(1, "MLX3\n", 5);
       warnx("mlx PNG error : %s", mipng_err[err]);
       return ((mlx_img_list_t *)0);
     }
   if (!(img = mlx_new_image(xvar, pi.width, pi.height)))
     {
+      write(1, "MLX4\n", 5);
       warnx("mlx PNG error : Can't create mlx image");
       return ((mlx_img_list_t *)0);
     }
   if ((err = mipng_data(img, dat, &pi)))
     {
       mlx_destroy_image(xvar, img);
+      write(1, "MLX5\n", 5);
       warnx("mlx PNG error : %s", mipng_err[err]);
       return ((mlx_img_list_t *)0);
     }
@@ -393,7 +398,7 @@ void	*mlx_png_file_to_image(mlx_ptr_t *xvar, char *file, int *width, int *height
   int			size;
   unsigned char		*ptr;
   mlx_img_list_t        *img;
-
+  write(1, "intpng file\n", 13);
   if ((fd = open(file, O_RDONLY)) == -1 || (size = lseek(fd, 0, SEEK_END)) == -1 ||
       (ptr = mmap(0, size, PROT_READ, MAP_PRIVATE, fd, 0)) == (void *)MAP_FAILED)
     {

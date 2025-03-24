@@ -6,7 +6,7 @@
 /*   By: yalkhidi <yalkhidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:50:05 by yalkhidi          #+#    #+#             */
-/*   Updated: 2025/03/18 14:24:48 by yalkhidi         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:07:22 by yalkhidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "libft/libft.h"
 # include "get_next_line/get_next_line.h"
 // # include </Users/yalkhidi/Desktop/so_long/mlx/mlx.h>
+# include "mlx/mlx.h"
+
 # include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>
@@ -29,7 +31,29 @@ typedef struct s_area
 	char	**map;
 	int		player_x;
 	int		player_y;
+	int		collect_count;
 }	t_area;
+
+typedef struct s_img
+{
+	void	*img;
+    int     width;
+    int     height;
+}	t_img;
+
+typedef struct s_game {
+    void    *mlx;
+    void    *win;
+	t_img	*img;
+    t_img   *bg;
+    t_img   *wall;
+    t_img   *space;
+    t_img   *col;
+    t_img   *player;
+    t_img   *exit;
+	t_area	*area;
+} t_game;
+
 
 void	print_message(char *message);
 //              MAP             //
@@ -54,7 +78,7 @@ void	validate_start_exit(char *filename);
 void	invalid_elements(char *line, int fd);
 void	validate_invalid_elements(char *filename);
 
-void	check_map(char *filename);
+t_area	*check_map(char *filename);
 void	map_to_array(char *filename, t_area *area);
 void	find_player(t_area *area);
 void	count_collectibles(t_area *area);
@@ -62,9 +86,19 @@ t_area	*collect_info(char *filename);
 
 char	**duplicat_map(char **map, int height);
 void	flood_fill(t_area *area, char **map, int x, int y);
-int	check_valid_c_e(char c, char f, char **map);
-int	is_valid_map(t_area *area);
+int		check_valid_c_e(char c, char f, char **map, t_area *area);
+int		is_valid_map(t_area *area);
 void	find_map_area(char *filename, t_area *area);
 
+
+
+void    fill_bg(t_game *g_mlx);
+void    fill_wall(t_game *g_mlx, int i, int j);
+void    fill_space(t_game *g_mlx, int i, int j);
+void    fill_col(t_game *g_mlx, int i, int j);
+void    fill_player(t_game *g_mlx, int i, int j);
+void    fill_exit(t_game *g_mlx, int i, int j);
+void    fill_map(t_game *game);
+void    free_game(t_game *game);
 
 #endif

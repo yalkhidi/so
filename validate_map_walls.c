@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map_walls.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: yalkhidi <yalkhidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:59:43 by yalkhidi          #+#    #+#             */
-/*   Updated: 2025/03/16 11:41:26 by codespace        ###   ########.fr       */
+/*   Updated: 2025/03/24 14:07:06 by yalkhidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	check_side_walls(char *line, char *previous, int fd)
 {
 	if (line[0] != '1' || line[ft_strlen(line) - 2] != '1')
 	{
-		free(line);
 		free(previous);
 		while (line)
 		{
